@@ -13,7 +13,7 @@ library(nnet)
 JWT_SECRET            <- Sys.getenv("JWT_SECRET", "MEUSEGREDOAQUI")
 JWT_ALGORITHM         <- "HS256"
 JWT_EXP_DELTA_SECONDS <- 3600
-DB_URL                <- Sys.getenv("DB_URL", "predictions.db")
+DB_URL                <- Sys.getenv("DB_URL", "/app/predictions.db")
 TEST_USERNAME         <- Sys.getenv("TEST_USERNAME", "admin")
 TEST_PASSWORD         <- Sys.getenv("TEST_PASSWORD", "secret")
 
