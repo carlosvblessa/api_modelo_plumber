@@ -12,11 +12,14 @@ RUN apt-get -y update && apt-get -y upgrade && \
     R -e "if(!require(plumber)) install.packages('plumber'); if(!require(dplyr)) install.packages('dplyr'); if(!require(DBI)) install.packages('DBI'); if(!require(jsonlite)) install.packages('jsonlite'); if(!require(jose)) install.packages('jose'); if(!require(nnet)) install.packages('nnet')" && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+    # Definir o diretório de trabalho
+WORKDIR /app
+
 # Copiar o script da API do plumber e o modelo para a imagem Docker
 COPY modelo_iris_LR.rds openapi.json api_modelo_plumber.R run_plumber.R predictions.db /app/
 
-# Definir o diretório de trabalho
-WORKDIR /app
+# Permite que o SQLite crie e modifique arquivos dentro de /app
+RUN chmod -R a+rwx /app
 
 # Expor a porta onde o plumber será executado
 EXPOSE 10000
