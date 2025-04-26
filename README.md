@@ -103,6 +103,4 @@ Este projeto implementa uma API REST em **R** usando o **Plumber** para autentic
 
 5. Acesse a documentação OpenAPI/Swagger:
    
-```
-
 
