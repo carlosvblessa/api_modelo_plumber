@@ -10,11 +10,11 @@ services:
     plan: free                  # plano gratuito
     dockerfilePath: Dockerfile  # caminho do Dockerfile no repositório
     healthCheckPath: "/health" # endpoint para health checks
-    envVars:
-      # Segredo JWT (configure como Secret no painel do Render)
+    envVars:                    # variáveis de ambiente
       - key: JWT_SECRET
-        fromSecret: jwt_secret
-      # Arquivo SQLite embutido (padrão: predictions.db em /app)
+        value: JWT_PLACEHOLDER      
       - key: DB_URL
-        value: "/app/predictions.db"
+        value: sqlite:///predictions.db
+      - key: PORT
+        value: "10000"              # opcional, só para tornar explícito
 
