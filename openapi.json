@@ -1,0 +1,351 @@
+{
+  "servers": [
+    {
+      "url": "http://localhost:10000",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Endpoints para login e obtenção de token"
+    },
+    {
+      "name": "Predição",
+      "description": "Endpoint para gerar predição única"
+    },
+    {
+      "name": "Predições",
+      "description": "Endpoint para listar predições armazenadas"
+    },
+    {
+      "name": "Infra",
+      "description": "Endpoints de infraestrutura (health, métricas, etc.)"
+    }
+  ],
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API de Previsão Iris com Plumber",
+    "description": "Esta API fornece endpoints para autenticação via JWT e predição de espécies Iris.\n",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Autenticação"
+        ],
+        "summary": "Faz login do usuário e retorna um JWT.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "secret"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem sucedido, retorna JWT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predict": {
+      "post": {
+        "tags": [
+          "Predição"
+        ],
+        "summary": "Realiza predição do modelo Iris.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sepal_length": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 6
+                  },
+                  "sepal_width": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 3
+                  },
+                  "petal_length": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 4
+                  },
+                  "petal_width": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Predição realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "predicted_class": {
+                      "type": "integer",
+                      "example": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Token inválido ou ausente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predictions": {
+      "get": {
+        "tags": [
+          "Predições"
+        ],
+        "summary": "Lista previsões armazenadas.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Quantidade de registros a serem retornados (padrão = 10).",
+            "example": 100
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A partir de qual registro começar (padrão = 0).",
+            "example": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de predições.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "sepal_length": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 5.1
+                      },
+                      "sepal_width": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 3.5
+                      },
+                      "petal_length": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1.4
+                      },
+                      "petal_width": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.2
+                      },
+                      "predicted_class": {
+                        "type": "integer",
+                        "example": 0
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01T12:34:56Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido ou ausente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Infra"
+        ],
+        "summary": "Verifica se a API está no ar",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "API funcionando",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

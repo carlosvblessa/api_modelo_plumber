@@ -1,0 +1,13 @@
+# Histórico e sessão do R
+.Rhistory
+.RData
+# Variáveis de ambiente e segredos
+.env
+.Renviron
+# Arquivos de log
+*.log
+# Cache de documentação Plumber
+__docs__/
+# Diretório de projeto RStudio
+.Rproj.user/
+

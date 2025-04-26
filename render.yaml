@@ -1,0 +1,20 @@
+# Render service definitions for Iris Plumber API
+
+# API web em Docker usando SQLite
+services:
+  - type: web
+    name: iris-plumber          # nome do serviço
+    env: docker                 # ambiente Docker
+    region: oregon              # escolha a região (ex: oregon, ireland...)
+    branch: main                # branch do GitHub que dispara o deploy
+    plan: free                  # plano gratuito
+    dockerfilePath: Dockerfile  # caminho do Dockerfile no repositório
+    healthCheckPath: "/health" # endpoint para health checks
+    envVars:
+      # Segredo JWT (configure como Secret no painel do Render)
+      - key: JWT_SECRET
+        fromSecret: jwt_secret
+      # Arquivo SQLite embutido (padrão: predictions.db em /app)
+      - key: DB_URL
+        value: "/app/predictions.db"
+
