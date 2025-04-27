@@ -2,7 +2,6 @@
 # API de Previsão Iris com Plumber
 
 library(plumber)
-library(dplyr)
 library(DBI)
 library(RSQLite)
 library(jsonlite)
