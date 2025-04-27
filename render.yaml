@@ -14,7 +14,6 @@ services:
       - key: JWT_SECRET
         value: JWT_PLACEHOLDER      
       - key: DB_URL
-        value: "sqlite:////app/predictions.db"
+        value: "/app/predictions.db"  # caminho absoluto para o SQLite
       - key: PORT
         value: "10000"              # opcional, só para tornar explícito
-
