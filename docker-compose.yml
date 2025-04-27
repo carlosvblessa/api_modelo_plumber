@@ -4,7 +4,5 @@ services:
     image: api_modelo_plumber:1.0
     ports:
       - "10000:10000"
-    volumes:
-      - ./predictions.db:/app/predictions.db
     environment:
       - R_ENVIRON_USER=/app/.Renviron
