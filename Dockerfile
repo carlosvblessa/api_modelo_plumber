@@ -30,4 +30,3 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   
 # Comando para executar a API
 ENTRYPOINT ["R", "-f", "/app/run_plumber.R"]
-
