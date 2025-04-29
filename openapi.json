@@ -25,9 +25,9 @@
   ],
   "openapi": "3.0.3",
   "info": {
-    "title": "API de Previsão Iris com Plumber",
-    "description": "Esta API fornece endpoints para autenticação via JWT e predição de espécies Iris.\n",
-    "version": "1.0.0"
+  "title": "API de Previsão Iris com Plumber",
+  "description": "Esta API fornece endpoints para autenticação via JWT, predição de espécies Iris e armazenamento das previsões realizadas.",
+  "version": "1.0.0"
   },
   "components": {
     "securitySchemes": {
@@ -338,6 +338,66 @@
                     "status": {
                       "type": "string",
                       "example": "OK"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Raiz"
+        ],
+        "summary": "Página inicial da API",
+        "description": "Retorna uma mensagem de boas-vindas e informações sobre os endpoints disponíveis.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Página inicial HTML ou JSON conforme o cabeçalho Accept",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<!DOCTYPE html><html>...</html>"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bem-vindo à API de Previsão Iris com Plumber!"
+                    },
+                    "endpoints": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["/login", "/predict", "/predictions", "/health"]
+                    },
+                    "documentation": {
+                      "type": "string",
+                      "example": "http://localhost:10000/__docs__/#/"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
                     }
                   }
                 }
