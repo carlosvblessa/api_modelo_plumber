@@ -9,7 +9,7 @@ services:
     branch: main                # branch do GitHub que dispara o deploy
     plan: free                  # plano gratuito
     dockerfilePath: Dockerfile  # caminho do Dockerfile no repositório
-    healthCheckPath: "/health" # endpoint para health checks
+    healthCheckPath: "/health"  # endpoint para health checks
     envVars:                    # variáveis de ambiente
       - key: JWT_SECRET
         value: JWT_PLACEHOLDER      

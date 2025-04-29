@@ -19,6 +19,10 @@
       "description": "Endpoint para listar predições armazenadas"
     },
     {
+      "name": "Raiz",
+      "description": "Página inicial da API"
+    },
+    {
       "name": "Infra",
       "description": "Endpoints de infraestrutura (health, métricas, etc.)"
     }
@@ -325,7 +329,7 @@
         "tags": [
           "Infra"
         ],
-        "summary": "Verifica se a API está no ar",
+        "summary": "Health check da aplicação e do banco",
         "security": [],
         "responses": {
           "200": {
@@ -338,6 +342,10 @@
                     "status": {
                       "type": "string",
                       "example": "OK"
+                    },
+                    "db": {
+                      "type": "string",
+                      "example": "up"
                     }
                   }
                 }
