@@ -4,11 +4,32 @@
 Este projeto implementa uma API REST em **R** usando o **Plumber** para autenticação via JWT e predição de espécies do conjunto de dados Iris. A API é empacotada em contêiner Docker e orquestrada via Docker Compose.
 
 ## Tecnologias
-- Linguagem: R (>= 4.5.0)
+- Linguagem: R (>= 4.4.0)
 - Framework: Plumber (REST)
 - Banco leve: SQLite (arquivo `predictions.db`)
 - Autenticação: JSON Web Tokens (package `jose`)
 - Containerização: Docker / Docker Compose
+
+---
+
+## Estrutura do projeto
+
+```
+api_modelo_plumber/
+├── api_modelo_plumber.R # Arquivo principal que define os endpoints da API Plumber
+├── run_plumber.R        # Script para inicializar e executar a API Plumber
+├── modelo_iris_LR.rds   # Modelo de Regressão Logística serializado
+├── predictions.db       # Base de dados SQLite para armazenamento das predições
+├── docker-compose.yml   # Configuração para orquestração de múltiplos serviços via Docker Compose
+├── Dockerfile           # Instruções para construção da imagem Docker da API
+├── README.md            # Documentação principal do projeto
+├── LICENSE              # Licença do projeto (MIT)
+├── render.yaml          # Parâmetros de inicialização para o Render (plataforma de deploy)
+├── openapi.json         # Documentação Swagger/OpenAPI da API
+├── .dockerignore        # Lista de arquivos/diretórios ignorados durante a construção da imagem Docker
+└── .gitignore           # Lista de arquivos/diretórios ignorados pelo Git
+
+```
 
 ## Endpoints
 
@@ -90,17 +111,25 @@ Este projeto implementa uma API REST em **R** usando o **Plumber** para autentic
    - `JWT_SECRET` (segredo do token JWT)
    - `DB_URL` (local do arquivo SQLite, ex.: `/app/predictions.db`)
 
-3. Inicie com Docker Compose:
+
+3. Crie a imagem com docker:
+   ```bash
+   docker build -t api_modelo_plumber:1.0 .
+   ```
+
+
+4. Inicie com Docker Compose:
    ```bash
    docker-compose up --build -d
    ```
 
-4. Verifique o status:
+5. Verifique o status:
    ```bash
    docker ps  # container deve estar UP (healthy)
    curl http://localhost:10000/health
    ```
 
-5. Acesse a documentação OpenAPI/Swagger:
-   
-
+6. Acesse a documentação OpenAPI/Swagger:
+   ```bash
+   http://localhost:10000/__docs__/
+   ```
